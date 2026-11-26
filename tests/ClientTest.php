@@ -190,6 +190,9 @@ final class ClientTest extends TestCase
         $transport = new FakeTransport(new Response(500, 'boom'), new Response(500, 'boom'));
         $client = new Client(new Config(maxRetries: 1), $transport, new SleepTracker());
 
+        /**
+         * @var ApiException $exception
+         */
         $exception = $this->assertThrows(
             ApiException::class,
             fn () => $client->search(SearchQuery::query('x')),
@@ -204,6 +207,9 @@ final class ClientTest extends TestCase
         $transport = new FakeTransport(new Response(404, self::jsonBody(['error' => 'Not Found'])));
         $client = new Client(new Config(maxRetries: 3), $transport, new SleepTracker());
 
+        /**
+         * @var ApiException $exception
+         */
         $exception = $this->assertThrows(
             ApiException::class,
             fn () => $client->search(SearchQuery::query('x')),
