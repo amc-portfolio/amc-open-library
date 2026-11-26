@@ -1,0 +1,16 @@
+<?php
+/**
+ * Minimal PSR-4 autoloader so the library works without Composer.
+ * If you use Composer, ignore this file and use vendor/autoload.php.
+ */
+
+spl_autoload_register(function (string $class): void {
+    $prefix = 'OpenLibrary\\';
+    if (!str_starts_with($class, $prefix)) {
+        return;
+    }
+    $path = __DIR__ . '/src/OpenLibrary/' . str_replace('\\', '/', substr($class, strlen($prefix))) . '.php';
+    if (is_file($path)) {
+        require $path;
+    }
+});
